@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Letzte Touren{% endblock %}
+
+{% block body %}
+    <h1>Letzte 3 Touren</h1>
+
+    {% if tours is not empty %}
+        <ul>
+            {% for tour in tours %}
+                <li>
+                    <strong>{{ tour.name }}</strong><br>
+                    Startdatum: {{ tour.startDate|date('d.m.Y') }}<br>
+                    Enddatum: {{ tour.endDate|date('d.m.Y') }}<br>
+                    Reisebegleiter: {{ tour.reisebegleiter.name }}<br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Keine Touren verfügbar.</p>
+    {% endif %}
+{% endblock %}

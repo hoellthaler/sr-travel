@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TourRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: TourRepository::class)]
 class Tour

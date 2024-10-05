@@ -14,6 +14,16 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/tour')]
 final class TourController extends AbstractController
 {
+    #[Route('/reisebegleiter/{id}/letzte-touren', name: 'show_last_tours', methods: ['GET'])]
+    public function showLastTours(int $id, TourRepository $tourRepository): Response
+    {
+        $tours = $tourRepository->findLastThreeToursForReisebegleiter($id);
+
+        return $this->render('tour/last_tours.html.twig', [
+            'tours' => $tours,
+        ]);
+    }
+
     #[Route(name: 'app_tour_index', methods: ['GET'])]
     public function index(TourRepository $tourRepository): Response
     {
@@ -71,7 +81,7 @@ final class TourController extends AbstractController
     #[Route('/{id}', name: 'app_tour_delete', methods: ['POST'])]
     public function delete(Request $request, Tour $tour, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$tour->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$tour->getId(), $request->request->get('_token'))) {
             $entityManager->remove($tour);
             $entityManager->flush();
         }
